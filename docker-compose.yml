@@ -4,11 +4,15 @@ services:
     container_name: flask
     ports:
       - "5000:5000"
+    environment:
+      MONGODB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGODB_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGODB_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGODB_HOSTNAME: mongodb
     depends_on:
       - mongodb
     volumes:
-      - ./flask/flask_blog:/app/flask_blog
-
+      - ./flask/blog:/app/blog
     networks:
       - backend
 
@@ -17,6 +21,7 @@ services:
     container_name: mongodb
     restart: unless-stopped
     command: mongod --auth
+
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
