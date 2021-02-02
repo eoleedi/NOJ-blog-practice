@@ -1,11 +1,43 @@
-<html>
-    <head>
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}Post{% endblock %}</h1>
+{% endblock %}
 
-    </head>
-    <body>
-        <form method="post">
-            <input type="text" name="title">
-            <input type="submit" value="submit">
-        </form>
-    </body>
-</html>
+{% block content %}
+    <form method="post" id="post">
+        <table>
+            <tr>
+                <td>
+                    <label>title: </label>
+                </td>
+                <td>
+                    <input type="text" name="title" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>content: </label>
+                </td>
+                <td>
+                    <textarea name="content" form="post" placeholder="Enter text here... " style="width:300px; height:150px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>要公開嗎？</label>
+                </td>
+                <td>
+                    <input type="checkbox" name="isPublic" value="True">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="submit">
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

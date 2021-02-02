@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Home{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <table>
+        {% for post in value %}
+        <tr>
+            <td>{{ post['title'] }}</td>
+            <td>{{ post['author'] }}</td>
+        </tr> 
+        {% endfor %}
+    </table>
+{% endblock %}

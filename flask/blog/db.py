@@ -1,13 +1,12 @@
 import os
-from pymongo import MongoClient
+from mongoengine import *
 
 
-    
+'''
+pyMongo -- old version
 client = MongoClient('mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@mongodb:27017/')
-
-def get_db():
-    db = client[os.environ['MONGODB_DATABASE']]
-    return db
+db = client[os.environ['MONGODB_DATABASE']]
+'''
 
 
     
