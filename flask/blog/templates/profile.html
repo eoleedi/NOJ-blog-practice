@@ -1,0 +1,13 @@
+{% extends 'base.html'  %}
+
+{% block header %}
+    <h1>{% block title %}Profile - {{ value['username'] }} {% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+    <ul>
+        <li>account: {{ value['username'] }} </li>
+        <li>nickname: {{ value['nickname'] }}</li>
+    </ul>
+{% endblock %}

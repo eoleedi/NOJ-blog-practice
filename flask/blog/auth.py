@@ -5,7 +5,6 @@ import os
 
 from mongoengine import *
 from blog import app
-from blog.db import get_db
 from blog.schema import *
 from blog.routes import *
 

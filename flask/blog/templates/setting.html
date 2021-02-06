@@ -8,5 +8,11 @@
 {% block content %}
     <ul>
         <li>nickname: {{ g.user['nickname'] }}</li>
+        <li>
+            <form method="POST">
+                <input type='text' name='nickname'>
+                <input type='submit'>    
+            </form>
+        </li>
     </ul>
 {% endblock %}

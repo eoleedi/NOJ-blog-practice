@@ -2,7 +2,7 @@ from mongoengine import *
 import datetime
 
 class Users(Document):
-    username = StringField(max_length=100, required=True)
+    username = StringField(max_length=100, required=True, unique=True)
     password = StringField(max_length=100, required=True)
     nickname = StringField(max_length=100, default=username)
     posts = ListField()
