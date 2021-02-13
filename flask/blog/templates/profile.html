@@ -1,13 +1,30 @@
 {% extends 'base.html'  %}
 
 {% block header %}
-    <h1>{% block title %}Profile - {{ value['username'] }} {% endblock %}</h1>
+    <h1>{% block title %}Profile{% endblock %}</h1>
 {% endblock %}
 
 
 {% block content %}
     <ul>
-        <li>account: {{ value['username'] }} </li>
-        <li>nickname: {{ value['nickname'] }}</li>
+        <li>account: {{ profile['username'] }} </li>
+        <li>nickname: {{ profile['nickname'] }}</li>
     </ul>
+    <h2>My Posts</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <th>Title</th>
+            <th>Author</th>
+            <th>Public?</th>
+            <th>Full page</th>
+        </thead>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.title }}</td>
+            <td>{{ post.author }}</td>
+            <td>{{ post.isPublic }}</td>
+            <td><a href="{{ url_for('get_post_page', id=post.id ) }}">Open in full page</a></td>
+        </tr> 
+        {% endfor %}
+    </table>
 {% endblock %}

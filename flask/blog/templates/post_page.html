@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %} {{ post.title }} {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        <li>title: {{ post.title }}</li>
+        <li>content: <p>{{ post.content }}</p> </li>
+    </ul>
+    <form action="{{ url_for('modify_post', id=post.id) }}" method="post" id="modify">
+        <table>
+            <tr>
+                <td>
+                    <label>title: </label>
+                </td>
+                <td>
+                    <input type="text" name="title" value="{{ post.title }}" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>content: </label>
+                </td>
+                <td>
+                    <textarea name="content" form="modify"  placeholder="Enter text here... " style="width:300px; height:150px;">{{ post.content }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>要公開嗎？</label>
+                </td>
+                <td>
+                    <input type="checkbox" name="isPublic" value="True" {{ isPublic }}>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="submit">
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

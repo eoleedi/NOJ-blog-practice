@@ -5,11 +5,18 @@
 {% endblock %}
 
 {% block content %}
-    <table>
+    <h2>All posts</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <th>Title</th>
+            <th>Author</th>
+            <th>Full page</th>
+        </thead>
         {% for post in value %}
         <tr>
             <td>{{ post['title'] }}</td>
             <td>{{ post['author'] }}</td>
+            <td><a href="{{ url_for('get_post_page', id=post.id ) }}">Open in full page</a></td>
         </tr> 
         {% endfor %}
     </table>

@@ -2,7 +2,7 @@ from flask import render_template, request,session, g, flash, redirect, url_for,
 import os
 from blog import app
 from blog.schema import *
-from blog.auth import login_required
+from blog.auth import login_required, load_logged_in_user
 
 
 
@@ -48,13 +48,62 @@ def post():
 @app.route('/profile/<id>')
 def profile(id):
     connect(os.environ['MONGODB_DATABASE'], host='mongodb', port=27017, username=os.environ['MONGODB_USERNAME'], password=os.environ['MONGODB_PASSWORD'])
-    user = Users.objects(username=id)
-    profile = {'username': '', 'nickname': ''}
-    if user.count() == 1:
-        profile['username'] = user[0].username
-        profile['nickname'] = user[0].nickname
-        return render_template('profile.html', value=profile)
-    else:
+    
+    try:
+        user = Users.objects.exclude('password').get(username=id)
+        posts = Posts.objects(author=id)
+        profile = {'username': '', 'nickname': ''} 
+
+        if session.get('user_id') == id:
+            isSelfUser = True
+        return render_template('profile.html', profile=user, posts=posts, isSelfUser=isSelfUser)
+    except DoesNotExist:
         return 'Profile not found.'
+    except MultipleObjectsReturned:
+        return 'Multiple users have found. System error.'
+
+
+@app.route('/posts/<id>')
+def get_post_page(id):
+    connect(os.environ['MONGODB_DATABASE'], host='mongodb', port=27017, username=os.environ['MONGODB_USERNAME'], password=os.environ['MONGODB_PASSWORD'])
+    try:
+        post = Posts.objects.get(id=id)
+        if post.isPublic == True or session.get('user_id') == post.author:
+            if post.isPublic:
+                isPublic = "checked"
+            else:
+                isPublic = "unchecked"
+            return render_template('post_page.html', post=post, isPublic=isPublic)
+        else:
+            return 'Permission denied'
+    except DoesNotExist:
+        return 'Post not found.'
+
+@app.route('/modify/<id>', methods=['POST'])
+@login_required
+def modify_post(id):
+    connect(os.environ['MONGODB_DATABASE'], host='mongodb', port=27017, username=os.environ['MONGODB_USERNAME'], password=os.environ['MONGODB_PASSWORD'])
+    string_to_boolean = lambda string: string=='True' 
+    
+    try:
+        post = Posts.objects.get(id=id)
+        if g.user.username == post.author:
+            post.update(
+                title=request.form['title'],
+                author=session.get('user_id'),
+                content=request.form['content'],
+                isPublic=string_to_boolean(request.form.get('isPublic')) 
+            )
+            return "Success"
+        else:
+            return "Permission Denied." + g.user.username
+    except DoesNotExist:  
+        return "Post not found. Can't not modify"
+    except MultipleObjectsReturned:
+        return "Mutliple posts found. System Error"
+    
+
+
+
 
     
