@@ -1,3 +1,5 @@
+# Requirements
+- docker
 # How to use
 ## Step 1
 1. change .env_example into .env
